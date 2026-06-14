@@ -1,0 +1,36 @@
+<nav class="navbar <%= typeof transparent !== 'undefined' && transparent ? 'transparent' : '' %>">
+    <div class="nav-container">
+        <a href="/" class="logo">ACT <span>Market</span></a>
+        <button class="mobile-menu-btn" type="button" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="menu-bar"></span>
+            <span class="menu-bar"></span>
+            <span class="menu-bar"></span>
+        </button>
+        <div class="nav-links-wrapper">
+            <div class="nav-links">
+                <a href="/listings" class="<%= title === 'Browse Listings' ? 'active' : '' %>">Browse</a>
+                <a href="/listings?category=all" class="<%= title === 'Categories' ? 'active' : '' %>">Categories</a>
+                <a href="/about" class="<%= title === 'How it works' ? 'active' : '' %>">How it works</a>
+                <% if (user) { %>
+                    <a href="/my-listings" class="<%= title === 'My Listings' ? 'active' : '' %>">My Items</a>
+                    <a href="/profile" class="<%= title.includes('Profile') ? 'active' : '' %>">Profile</a>
+                    <% if (user.role === 'admin') { %>
+                        <a href="/admin" class="<%= title.includes('Admin') ? 'active' : '' %>">Admin</a>
+                    <% } %>
+                <% } %>
+            </div>
+            <div class="nav-actions">
+                <% if (user) { %>
+                    <a href="/my-listings/create" class="btn btn-nav-sell">Sell Item</a>
+                    <div class="nav-user">
+                        Hi, <span><%= user.name.split(' ')[0] %></span>
+                        <a href="/logout" class="btn btn-ghost">Logout</a>
+                    </div>
+                <% } else { %>
+                    <a href="/login" class="btn btn-ghost <%= title === 'Login' ? 'active' : '' %>">Login</a>
+                    <a href="/register" class="btn btn-secondary">Register</a>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</nav>
