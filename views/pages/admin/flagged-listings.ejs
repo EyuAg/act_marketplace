@@ -1,0 +1,27 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbar') %>
+
+<div class="admin-container">
+    <h2>Flagged Listings</h2>
+    
+    <table class="admin-table">
+        <thead>
+            <tr><th>Title</th><th>Seller</th><th>Reason</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+            <% listings.forEach(listing => { %>
+                <tr>
+                    <td><%= listing.title %></td>
+                    <td><%= listing.seller_name %></td>
+                    <td><%= listing.flag_reason %></td>
+                    <td>
+                        <a href="/admin/delete-listing/<%= listing.id %>">Delete</a>
+                        <a href="/admin/approve-listing/<%= listing.id %>">Approve</a>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+<%- include('../../partials/footer') %>
