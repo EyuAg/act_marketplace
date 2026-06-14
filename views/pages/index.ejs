@@ -1,0 +1,97 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar', { transparent: true }) %>
+
+<!-- Full-bleed video hero connected to navbar -->
+<header class="hero-hero">
+    <div class="hero-video-wrapper">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260302_085844_21a8f4b3-dea5-4ede-be16-d53f6973bb14.mp4" type="video/mp4">
+        </video>
+        <div class="hero-gradient"></div>
+        <div class="hero-content">
+            <div class="hero-container">
+                <div class="hero-wrapper">
+                <div class="hero-inner">
+                    <div class="hero-label">AMERICAN COLLEGE OF TECHNOLOGY — ADDIS ABABA</div>
+                    <h1>Buy & sell with fellow ACT <span>students</span> on campus.</h1>
+                    <p>The campus-only marketplace for ACT students. Buy and sell textbooks, electronics, uniforms, notes, and more — completely free.</p>
+                    <div class="hero-actions">
+                        <a href="/listings" class="btn btn-hero-primary">Browse listings</a>
+                        <a href="/my-listings/create" class="btn btn-hero-secondary">Start selling</a>
+                    </div>
+
+                </div>
+                <div class="hero-live-listings">
+                    <div class="live-listings-card">
+                        <div class="live-listings-header">
+                            <span class="live-indicator">● Live listings</span>
+                        </div>
+                        <div class="live-listings-items">
+                            <% if (listings && listings.length > 0) { %>
+                                <% listings.slice(0, 3).forEach(listing => { %>
+                                    <div class="live-listing-item">
+                                        <div class="live-listing-icon">
+                                                            <% 
+                                                                let primaryImage = null;
+                                                                if (listing.images && listing.images.length) primaryImage = listing.images[0];
+                                                                else if (listing.image_url) {
+                                                                    try { const parsed = JSON.parse(listing.image_url); primaryImage = Array.isArray(parsed) ? parsed[0] : listing.image_url; } catch(e) { primaryImage = listing.image_url; }
+                                                                }
+                                                            %>
+                                                            <% if (primaryImage) { %>
+                                                                <img src="<%= primaryImage %>" alt="<%= listing.title %>">
+                                                            <% } else { %>
+                                                                <div class="listing-placeholder">📦</div>
+                                                            <% } %>
+                                        </div>
+                                        <div class="live-listing-info">
+                                            <div class="live-listing-title"><%= listing.title %></div>
+                                            <div class="live-listing-category"><%= listing.category %> · <%= listing.condition %></div>
+                                        </div>
+                                        <div class="live-listing-price">ETB <%= listing.price %></div>
+                                    </div>
+                                <% }) %>
+                            <% } else { %>
+                                <div class="live-listing-item">
+                                    <div class="live-listing-info">
+                                        <p style="text-align: center; opacity: 0.7;">No listings yet</p>
+                                    </div>
+                                </div>
+                            <% } %>
+                        </div>
+                        <div class="live-listings-footer">
+                            <a href="/listings" class="view-all-link">View all listings →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <!-- Listings Section -->
+    <div style="margin-top: 1rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+        <h2 style="font-size: 2rem;">Recent Listings</h2>
+        <a href="/listings" class="btn btn-outline">Browse All Listings &rarr;</a>
+    </div>
+    
+    <% if (listings.length === 0) { %>
+        <div style="text-align: center; padding: 4rem; background: var(--bg-card); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">📦</div>
+            <h3 style="margin-bottom: 0.5rem;">No Active Listings</h3>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Be the first to list an item on the market!</p>
+            <a href="/my-listings/create" class="btn btn-secondary">Sell an Item</a>
+        </div>
+    <% } else { %>
+        <div class="listings-grid">
+            <% listings.forEach(listing => { %>
+                <%- include('../partials/listing-card', { listing: listing }) %>
+            <% }) %>
+        </div>
+    <% } %>
+</div>
+
+<%- include('../partials/landing-features') %>
+
+<%- include('../partials/footer') %>
