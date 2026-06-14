@@ -1,0 +1,55 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="container">
+    <!-- Premium Profile Card -->
+    <div class="profile-card">
+        <div class="profile-avatar-wrapper">
+            <img src="https://ui-avatars.com/api/?background=1E3A5F&color=fff&size=120&bold=true&name=<%= encodeURIComponent(profileUser.name) %>" 
+                 alt="Avatar" class="profile-avatar">
+        </div>
+        <h2><%= profileUser.name %></h2>
+        <p class="email">📧 <%= profileUser.email %></p>
+        
+        <div class="profile-meta">
+            <span>ID: <%= profileUser.student_id %></span>
+            <span>Joined: <%= new Date(profileUser.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></span>
+        </div>
+        
+        <!-- Stats Widgets -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number"><%= listingCount %></div>
+                <div class="stat-label">Active Listings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Items Sold</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Reviews</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- User Listings section -->
+    <h3 style="font-size: 1.8rem; margin-top: 3rem; margin-bottom: 1rem; color: var(--primary-dark);">
+        <%= isOwnProfile ? 'My Listings' : `${profileUser.name}'s Listings` %>
+    </h3>
+    
+    <% if (listings.length === 0) { %>
+        <div style="text-align: center; padding: 4rem; background: var(--bg-card); border-radius: var(--radius-md); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">📦</div>
+            <p style="color: var(--text-muted);">No active listings to show right now.</p>
+        </div>
+    <% } else { %>
+        <div class="listings-grid">
+            <% listings.forEach(listing => { %>
+                <%- include('../partials/listing-card', { listing: listing }) %>
+            <% }) %>
+        </div>
+    <% } %>
+</div>
+
+<%- include('../partials/footer') %>
