@@ -65,9 +65,9 @@ app.use('/', indexRoutes);            // /, /about, /contact
 app.use(['/login', '/register', '/forgot-password', '/reset-password'], authLimiter);
 app.use('/', authRoutes);             // /login, /register, /logout
 app.use('/listings', listingsRoutes); // /listings, /listings/search, /listings/:id
-app.use('/my-listings', myListingsRoutes); // /my-listings, /my-listings/create, /my-listings/edit/:id, etc.
+app.use('/my-listings', myListingsRoutes); // /my-listings, /my-listings/create, etc.
 app.use('/profile', profileRoutes);   // /profile, /profile/:id
-app.use('/admin', adminRoutes);       // /admin, /admin/users, /admin/make-admin/:id, etc.
+app.use('/admin', adminRoutes);       // /admin, /admin/users, etc.
 
 // ============ ERROR HANDLERS ============
 app.use(notFound);
@@ -83,3 +83,5 @@ app.listen(PORT, () => {
     ═══════════════════════════════════════
     `);
 });
+
+module.exports = app;
