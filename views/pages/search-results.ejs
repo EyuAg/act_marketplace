@@ -1,0 +1,19 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="container">
+    <h2>Search Results for "<%= searchQuery %>"</h2>
+    <p>Found <%= listings.length %> item(s)</p>
+    
+    <% if (listings.length === 0) { %>
+        <p>No listings found. Try a different search term.</p>
+    <% } else { %>
+        <div class="listings-grid">
+            <% listings.forEach(listing => { %>
+                <%- include('../partials/listing-card', { listing: listing }) %>
+            <% }) %>
+        </div>
+    <% } %>
+</div>
+
+<%- include('../partials/footer') %>
