@@ -1,0 +1,40 @@
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #1a1a1a;
+        color: #f0f0f0;
+    }
+    
+    .listing-card,
+    .form-container,
+    .admin-card,
+    .stat-card {
+        background: #2d2d2d;
+        color: #f0f0f0;
+    }
+    
+    input,
+    select,
+    textarea {
+        background: #3d3d3d;
+        color: #f0f0f0;
+        border-color: #555;
+    }
+    
+    .admin-table {
+        background: #2d2d2d;
+    }
+    
+    .admin-table td {
+        border-color: #444;
+    }
+    
+    .alert-error {
+        background: #442222;
+        color: #ffaaaa;
+    }
+    
+    .alert-success {
+        background: #224422;
+        color: #aaffaa;
+    }
+}
