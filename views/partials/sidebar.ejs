@@ -1,36 +1,66 @@
 <aside class="filter-sidebar">
-    <h3>Filters</h3>
+    <h3><i class="fas fa-sliders-h"></i> Filters</h3>
     
-    <form action="/listings/search" method="GET">
+    <form action="/listings/search" method="GET" id="filter-form">
+        
+        <!-- Search Input -->
         <div class="filter-group">
-            <label>Category</label>
+            <label><i class="fas fa-search"></i> Search</label>
+            <input type="text" name="q" placeholder="Search listings..." 
+                   value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>">
+        </div>
+        
+        <!-- Category Filter -->
+        <div class="filter-group">
+            <label><i class="fas fa-tag"></i> Category</label>
             <select name="category">
                 <option value="all">All Categories</option>
-                <option value="Textbooks">Textbooks</option>
-                <option value="Electronics">Electronics</option>
-                <option value="Clothing">Clothing</option>
-                <option value="Furniture">Furniture</option>
-                <option value="Other">Other</option>
+                <option value="Textbooks" <%= (typeof selectedCategory !== 'undefined' && selectedCategory === 'Textbooks') ? 'selected' : '' %>>📚 Textbooks</option>
+                <option value="Electronics" <%= (typeof selectedCategory !== 'undefined' && selectedCategory === 'Electronics') ? 'selected' : '' %>>💻 Electronics</option>
+                <option value="Clothing" <%= (typeof selectedCategory !== 'undefined' && selectedCategory === 'Clothing') ? 'selected' : '' %>>👕 Clothing</option>
+                <option value="Furniture" <%= (typeof selectedCategory !== 'undefined' && selectedCategory === 'Furniture') ? 'selected' : '' %>>🪑 Furniture</option>
+                <option value="Other" <%= (typeof selectedCategory !== 'undefined' && selectedCategory === 'Other') ? 'selected' : '' %>>📦 Other</option>
             </select>
         </div>
         
+        <!-- Price Range -->
         <div class="filter-group">
-            <label>Price Range</label>
-            <input type="number" name="minPrice" placeholder="Min">
-            <input type="number" name="maxPrice" placeholder="Max">
+            <label><i class="fas fa-money-bill-wave"></i> Price Range (ETB)</label>
+            <div class="price-range">
+                <input type="number" name="minPrice" placeholder="Min" value="<%= typeof minPrice !== 'undefined' ? minPrice : '' %>">
+                <span>-</span>
+                <input type="number" name="maxPrice" placeholder="Max" value="<%= typeof maxPrice !== 'undefined' ? maxPrice : '' %>">
+            </div>
         </div>
         
+        <!-- Condition Filter -->
         <div class="filter-group">
-            <label>Condition</label>
-            <select name="condition">
-                <option value="all">Any</option>
-                <option value="New">New</option>
-                <option value="Like New">Like New</option>
-                <option value="Good">Good</option>
-                <option value="Fair">Fair</option>
-            </select>
+            <label><i class="fas fa-clipboard-list"></i> Condition</label>
+            <div class="condition-options">
+                <label>
+                    <input type="radio" name="condition" value="all" <%= (typeof selectedCondition !== 'undefined' && (selectedCondition === 'all' || !selectedCondition)) ? 'checked' : '' %>> All
+                </label>
+                <label>
+                    <input type="radio" name="condition" value="New" <%= (typeof selectedCondition !== 'undefined' && selectedCondition === 'New') ? 'checked' : '' %>> New
+                </label>
+                <label>
+                    <input type="radio" name="condition" value="Like New" <%= (typeof selectedCondition !== 'undefined' && selectedCondition === 'Like New') ? 'checked' : '' %>> Like New
+                </label>
+                <label>
+                    <input type="radio" name="condition" value="Good" <%= (typeof selectedCondition !== 'undefined' && selectedCondition === 'Good') ? 'checked' : '' %>> Good
+                </label>
+                <label>
+                    <input type="radio" name="condition" value="Fair" <%= (typeof selectedCondition !== 'undefined' && selectedCondition === 'Fair') ? 'checked' : '' %>> Fair
+                </label>
+            </div>
         </div>
         
-        <button type="submit" class="btn-primary">Apply Filters</button>
+        <button type="submit" class="btn-primary">
+            <i class="fas fa-filter"></i> Apply Filters
+        </button>
+        
+        <a href="/listings" class="clear-filters">
+            <i class="fas fa-undo-alt"></i> Clear All Filters
+        </a>
     </form>
 </aside>

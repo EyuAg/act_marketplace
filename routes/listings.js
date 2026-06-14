@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { pool } = require('../database/db');
 
-// Browse all listings
+// Browse all listings (FIXED - includes sidebar variables)
 router.get('/', async (req, res) => {
     try {
         const result = await pool.query(`
@@ -12,23 +12,26 @@ router.get('/', async (req, res) => {
             WHERE l.status = 'active' 
             ORDER BY l.created_at DESC
         `);
-        const listings = result.rows.map(r => ({
-            ...r,
-            images: r.image_url ? (Array.isArray(r.image_url) ? r.image_url : (() => { try { return JSON.parse(r.image_url); } catch(e){ return []; }})()) : []
-        }));
-
+        
         res.render('pages/listings', { 
             title: 'Browse Listings',
-            listings
+            listings: result.rows,
+            // These are needed for the sidebar partial
+            searchQuery: '',
+            selectedCategory: 'all',
+            minPrice: '',
+            maxPrice: '',
+            selectedCondition: 'all'
         });
     } catch (err) {
+        console.error(err);
         res.status(500).send('Error loading listings');
     }
 });
 
-// Search
+// Search results (already has these variables)
 router.get('/search', async (req, res) => {
-    const { q, category, minPrice, maxPrice } = req.query;
+    const { q, category, minPrice, maxPrice, condition } = req.query;
     
     try {
         let query = `
@@ -64,62 +67,57 @@ router.get('/search', async (req, res) => {
             idx++;
         }
         
+        if (condition && condition !== 'all') {
+            query += ` AND l.condition = $${idx}`;
+            params.push(condition);
+            idx++;
+        }
+        
         query += ` ORDER BY l.created_at DESC`;
         
         const result = await pool.query(query, params);
-        const listings = result.rows.map(r => ({
-            ...r,
-            images: r.image_url ? (Array.isArray(r.image_url) ? r.image_url : (() => { try { return JSON.parse(r.image_url); } catch(e){ return []; }})()) : []
-        }));
-
+        
+        // Get categories for filter dropdown
+        const categories = await pool.query('SELECT DISTINCT category FROM listings WHERE status = $1', ['active']);
+        
         res.render('pages/listings', { 
             title: q ? `Search: ${q}` : 'Search Results',
-            listings
+            listings: result.rows,
+            searchQuery: q || '',
+            selectedCategory: category || 'all',
+            minPrice: minPrice || '',
+            maxPrice: maxPrice || '',
+            selectedCondition: condition || 'all'
         });
     } catch (err) {
+        console.error(err);
         res.status(500).send('Error performing search');
     }
 });
 
-// Single listing
+// Single listing view
 router.get('/:id', async (req, res) => {
-    const listingId = parseInt(req.params.id, 10);
-    if (Number.isNaN(listingId)) {
-        return res.status(404).render('pages/404', { title: 'Page Not Found', message: 'Listing not found.' });
-    }
-
     try {
-        // Track views when the column exists; older local databases may not have it yet.
-        await pool.query(`
-            UPDATE listings
-            SET view_count = COALESCE(view_count, 0) + 1
-            WHERE id = $1
-        `, [listingId]).catch((err) => {
-            if (err.code !== '42703') throw err;
-            console.warn('Skipping view count update: listings.view_count column is missing');
-        });
+        await pool.query('UPDATE listings SET view_count = view_count + 1 WHERE id = $1', [req.params.id]);
         
         const result = await pool.query(`
             SELECT l.*, u.name as seller_name, u.email as seller_email 
             FROM listings l 
             JOIN users u ON l.user_id = u.id 
             WHERE l.id = $1
-        `, [listingId]);
+        `, [req.params.id]);
         
         if (result.rows.length === 0) {
-            return res.status(404).render('pages/404', { title: 'Listing Not Found', message: 'The requested listing does not exist.' });
+            return res.status(404).send('Listing not found');
         }
         
-        const listing = result.rows[0];
-        listing.images = listing.image_url ? (Array.isArray(listing.image_url) ? listing.image_url : (() => { try { return JSON.parse(listing.image_url); } catch(e){ return []; }})()) : [];
-
         res.render('pages/listing-detail', { 
-            title: listing.title,
-            listing
+            title: result.rows[0].title,
+            listing: result.rows[0] 
         });
     } catch (err) {
-        console.error('Listing error:', err);
-        res.status(500).render('pages/error', { title: 'Error', status: 500, message: 'Error loading listing', error: process.env.NODE_ENV === 'development' ? err : {} });
+        console.error(err);
+        res.status(500).send('Error loading listing');
     }
 });
 

@@ -73,11 +73,11 @@ function validateForm() {
         return false;
     }
     
-    if (email === '' || !email.includes('@')) {
-        alert('❌ Please enter a valid email address.');
-        return false;
-    }
-    
+    if (email === '' || !email.toLowerCase().endsWith('@act.edu')) {
+    alert('❌ Please enter a valid @act.edu email address.');
+    return false;
+   }
+
     if (studentId === '') {
         alert('❌ Please enter your Student ID.');
         return false;
