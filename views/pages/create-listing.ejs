@@ -1,0 +1,66 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="container">
+    <div class="form-container" style="max-width: 600px;">
+        <h2>List an Item for Sale</h2>
+        <p>Fill out the details below to publish your campus listing</p>
+        
+        <% if (error) { %>
+            <div class="alert alert-error">
+                <span><%= error %></span>
+            </div>
+        <% } %>
+        
+        <form action="/my-listings/create" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="title">Item Title *</label>
+                <input type="text" name="title" id="title" placeholder="e.g. iPad Pro 11-inch (2022)" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Item Description *</label>
+                <textarea name="description" id="description" placeholder="Provide clear information about item condition, inclusions, and meeting details..." rows="5" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="price">Price (ETB) *</label>
+                <input type="number" name="price" id="price" placeholder="500.00" step="0.01" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="category">Category *</label>
+                <select name="category" id="category" required>
+                    <option value="Textbooks">Textbooks</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Furniture">Furniture</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="condition">Condition *</label>
+                <select name="condition" id="condition" required>
+                    <option value="New">New (Unopened, original packaging)</option>
+                    <option value="Like New">Like New (Practically no signs of wear)</option>
+                    <option value="Good">Good (Minor cosmetic wear, fully functional)</option>
+                    <option value="Fair">Fair (Noticeable wear, functional)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="images">Item Photos</label>
+                <input type="file" name="images" id="images" accept="image/*" multiple style="background: transparent; border: none; padding: 0.5rem 0;">
+                <small>Upload up to 8 images. Format: JPEG, PNG, or WebP. Max size per file: 5MB.</small>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <a href="/my-listings" class="btn btn-outline" style="flex: 1; text-align: center;">Cancel</a>
+                <button type="submit" class="btn btn-primary" style="flex: 2;">Publish Listing</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

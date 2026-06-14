@@ -1,0 +1,60 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="container">
+    <div class="form-container" style="max-width: 600px;">
+        <h2>Edit Campus Listing</h2>
+        <p>Update the information for your item below</p>
+        
+        <% if (error) { %>
+            <div class="alert alert-error">
+                <span><%= error %></span>
+            </div>
+        <% } %>
+        
+        <form method="POST">
+            <div class="form-group">
+                <label for="title">Item Title *</label>
+                <input type="text" name="title" id="title" value="<%= listing.title %>" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Item Description *</label>
+                <textarea name="description" id="description" rows="5" required><%= listing.description %></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="price">Price (ETB) *</label>
+                <input type="number" name="price" id="price" step="0.01" value="<%= listing.price %>" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="category">Category *</label>
+                <select name="category" id="category" required>
+                    <option value="Textbooks" <%= listing.category === 'Textbooks' ? 'selected' : '' %>>Textbooks</option>
+                    <option value="Electronics" <%= listing.category === 'Electronics' ? 'selected' : '' %>>Electronics</option>
+                    <option value="Clothing" <%= listing.category === 'Clothing' ? 'selected' : '' %>>Clothing</option>
+                    <option value="Furniture" <%= listing.category === 'Furniture' ? 'selected' : '' %>>Furniture</option>
+                    <option value="Other" <%= listing.category === 'Other' ? 'selected' : '' %>>Other</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="condition">Condition *</label>
+                <select name="condition" id="condition" required>
+                    <option value="New" <%= listing.condition === 'New' ? 'selected' : '' %>>New (Unopened, original packaging)</option>
+                    <option value="Like New" <%= listing.condition === 'Like New' ? 'selected' : '' %>>Like New (Practically no signs of wear)</option>
+                    <option value="Good" <%= listing.condition === 'Good' ? 'selected' : '' %>>Good (Minor cosmetic wear, fully functional)</option>
+                    <option value="Fair" <%= listing.condition === 'Fair' ? 'selected' : '' %>>Fair (Noticeable wear, functional)</option>
+                </select>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <a href="/my-listings" class="btn btn-outline" style="flex: 1; text-align: center;">Cancel</a>
+                <button type="submit" class="btn btn-primary" style="flex: 2;">Update Listing</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>
