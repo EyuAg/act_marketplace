@@ -1,23 +1,19 @@
 <%- include('../partials/header') %>
-<%- include('../partials/navbar') %>
+<h1>Your Messages</h1>
 
-<div class="container">
-    <h2>Messages</h2>
-    
-    <% if (messages.length === 0) { %>
-        <p>No messages yet.</p>
-    <% } else { %>
-        <div class="messages-list">
-            <% messages.forEach(msg => { %>
-                <div class="message-item <%= msg.is_read ? 'read' : 'unread' %>">
-                    <p><strong>From:</strong> <%= msg.sender_name %></p>
-                    <p><strong>Listing:</strong> <%= msg.listing_title %></p>
-                    <p><%= msg.message %></p>
-                    <small><%= msg.created_at %></small>
-                </div>
-            <% }) %>
-        </div>
-    <% } %>
+<div class="conversations-list">
+<% if (conversations.length === 0) { %>
+    <p>No messages yet. Start a conversation from a listing!</p>
+<% } else { %>
+    <% conversations.forEach(conv => { %>
+        <a href="/messages/conversation/<%= conv.other_user_id %>" class="conversation-item">
+            <img src="<%= conv.profile_picture || '/images/default-avatar.png' %>" alt="">
+            <div>
+                <h3><%= conv.other_user_name %></h3>
+                <p><%= conv.last_message ? conv.last_message.substring(0, 60) : '' %>...</p>
+            </div>
+        </a>
+    <% }); %>
+<% } %>
 </div>
-
 <%- include('../partials/footer') %>

@@ -13,12 +13,19 @@
                 let gallery = [];
                 if (listing.images && listing.images.length) gallery = listing.images;
                 else if (listing.image_url) {
-                    try { const parsed = JSON.parse(listing.image_url); gallery = Array.isArray(parsed) ? parsed : [listing.image_url]; } catch(e) { gallery = [listing.image_url]; }
+                    try { 
+                        const parsed = JSON.parse(listing.image_url); 
+                        gallery = Array.isArray(parsed) ? parsed : [listing.image_url]; 
+                    } catch(e) { 
+                        gallery = [listing.image_url]; 
+                    }
                 }
             %>
             <% if (gallery.length) { %>
                 <% gallery.forEach((img, idx) => { %>
-                    <img src="<%= img %>" alt="<%= listing.title %> - <%= idx+1 %>">
+                    <img src="<%= img.startsWith('/') ? img : '/' + img %>" 
+                         alt="<%= listing.title %> - <%= idx+1 %>"
+                         loading="lazy">
                 <% }) %>
             <% } else { %>
                 <div class="listing-placeholder">📦</div>
@@ -41,18 +48,25 @@
                 <p><%= listing.description %></p>
             </div>
             
-            <!-- Contact Seller Box -->
+            <!-- Message Seller Button - NEW -->
             <% if (user && user.id !== listing.user_id) { %>
-                <div class="seller-box">
-                    <h3>✉️ Contact Seller</h3>
-                    <p>Interested in this item? Reach out to the seller directly via email:</p>
-                    <p style="font-weight: 700; margin-top: 0.5rem; color: var(--primary);">
-                        <a href="mailto:<%= listing.seller_email %>"><%= listing.seller_email %></a>
-                    </p>
-                </div>
+                <a href="/messages/conversation/<%= listing.user_id %>" 
+                   class="btn btn-primary btn-message" 
+                   style="display: block; text-align: center; margin: 1.5rem 0; padding: 14px; font-size: 1.1rem;">
+                    💬 Message Seller
+                </a>
             <% } else if (!user) { %>
-                <div class="seller-box" style="text-align: center;">
-                    <p><a href="/login" style="font-weight: 700; text-decoration: underline;">Login</a> to contact the seller.</p>
+                <a href="/login" 
+                   class="btn btn-primary btn-message" 
+                   style="display: block; text-align: center; margin: 1.5rem 0; padding: 14px; font-size: 1.1rem;">
+                    💬 Login to Message Seller
+                </a>
+            <% } %>
+
+            <!-- Old Email Contact (Optional - you can remove this) -->
+            <% if (user && user.id !== listing.user_id) { %>
+                <div class="seller-box" style="margin-top: 1rem; opacity: 0.8;">
+                    <small>Or email: <a href="mailto:<%= listing.seller_email %>"><%= listing.seller_email %></a></small>
                 </div>
             <% } %>
             

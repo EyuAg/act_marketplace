@@ -24,6 +24,7 @@ const listingsRoutes = require('./routes/listings');
 const myListingsRoutes = require('./routes/my-listings');
 const profileRoutes = require('./routes/profile');
 const adminRoutes = require('./routes/admin');
+const messagesRouter = require('./routes/messages');
 
 const app = express();
 
@@ -68,6 +69,7 @@ app.use('/listings', listingsRoutes); // /listings, /listings/search, /listings/
 app.use('/my-listings', myListingsRoutes); // /my-listings, /my-listings/create, etc.
 app.use('/profile', profileRoutes);   // /profile, /profile/:id
 app.use('/admin', adminRoutes);       // /admin, /admin/users, etc.
+app.use('/messages', messagesRouter);
 
 // ============ ERROR HANDLERS ============
 app.use(notFound);

@@ -1,15 +1,20 @@
-// Message polling for real-time updates
-let lastMessageId = 0;
+document.getElementById('messageForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const message = document.getElementById('messageInput').value;
+    const receiverId = document.getElementById('receiverId').value;
 
-function pollMessages() {
-    fetch(`/api/messages/new?since=${lastMessageId}`)
-        .then(res => res.json())
-        .then(messages => {
-            if (messages.length > 0) {
-                updateMessageUI(messages);
-                lastMessageId = messages[messages.length - 1].id;
-            }
-        });
-}
+    if (!message.trim()) return;
 
-setInterval(pollMessages, 5000);
+    const res = await fetch('/messages/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ receiver_id: receiverId, message })
+    });
+
+    if (res.ok) {
+        location.reload(); // Refresh to show new message
+    } else {
+        alert('Failed to send message');
+    }
+});
