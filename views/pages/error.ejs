@@ -1,0 +1,14 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="error-page">
+    <h1><%= typeof status !== 'undefined' ? status : 'Error' %></h1>
+    <h2>Something Went Wrong</h2>
+    <p><%= message %></p>
+    <% if (typeof error !== 'undefined' && error && error.stack) { %>
+        <pre style="text-align: left; max-width: 800px; margin: 1.5rem auto; overflow-x: auto; background: var(--bg-card); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); font-size: 0.85rem;"><%= error.stack %></pre>
+    <% } %>
+    <a href="/" class="btn-primary">Go Home</a>
+</div>
+
+<%- include('../partials/footer') %>

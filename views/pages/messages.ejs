@@ -1,0 +1,23 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="container">
+    <h2>Messages</h2>
+    
+    <% if (messages.length === 0) { %>
+        <p>No messages yet.</p>
+    <% } else { %>
+        <div class="messages-list">
+            <% messages.forEach(msg => { %>
+                <div class="message-item <%= msg.is_read ? 'read' : 'unread' %>">
+                    <p><strong>From:</strong> <%= msg.sender_name %></p>
+                    <p><strong>Listing:</strong> <%= msg.listing_title %></p>
+                    <p><%= msg.message %></p>
+                    <small><%= msg.created_at %></small>
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+</div>
+
+<%- include('../partials/footer') %>
