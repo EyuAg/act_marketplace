@@ -1,0 +1,29 @@
+<div class="listing-card">
+    <div class="listing-image-container">
+        <% 
+            let primaryImage = null;
+            if (listing.images && listing.images.length) primaryImage = listing.images[0];
+            else if (listing.image_url) {
+                try { const parsed = JSON.parse(listing.image_url); primaryImage = Array.isArray(parsed) ? parsed[0] : listing.image_url; } catch(e) { primaryImage = listing.image_url; }
+            }
+        %>
+        <% if (primaryImage) { %>
+            <img src="<%= primaryImage %>" alt="<%= listing.title %>" class="listing-image" loading="lazy">
+        <% } else { %>
+            <div class="listing-placeholder">📦</div>
+        <% } %>
+        <span class="listing-badge"><%= listing.category %></span>
+        <span class="listing-badge condition"><%= listing.condition %></span>
+    </div>
+    
+    <div class="listing-content">
+        <h3 class="listing-title"><%= listing.title %></h3>
+        <p class="listing-price">ETB <%= parseFloat(listing.price).toFixed(2) %></p>
+        <p class="listing-seller">Seller: <%= listing.seller_name %></p>
+        
+        <% const listingId = listing.id || listing.listing_id || listing._id; %>
+        <div class="listing-actions-row">
+            <a href="/listings/<%= listingId %>" class="btn btn-primary btn-full">View Details</a>
+        </div>
+    </div>
+</div>
