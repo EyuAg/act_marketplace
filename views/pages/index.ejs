@@ -85,7 +85,7 @@
         </div>
     <% } else { %>
         <div class="listings-grid">
-            <% listings.forEach(listing => { %>
+            <% listings.slice(0, 6).forEach(listing => { %>
                 <%- include('../partials/listing-card', { listing: listing }) %>
             <% }) %>
         </div>
