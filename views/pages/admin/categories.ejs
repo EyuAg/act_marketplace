@@ -1,0 +1,30 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbar') %>
+
+<div class="admin-container">
+    <h2>Manage Categories</h2>
+    
+    <form method="POST" action="/admin/categories/add">
+        <input type="text" name="name" placeholder="New Category" required>
+        <button type="submit">Add Category</button>
+    </form>
+    
+    <table class="admin-table">
+        <thead>
+            <tr><th>ID</th><th>Name</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+            <% categories.forEach(cat => { %>
+                <tr>
+                    <td><%= cat.id %></td>
+                    <td><%= cat.name %></td>
+                    <td>
+                        <a href="/admin/categories/delete/<%= cat.id %>">Delete</a>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+<%- include('../../partials/footer') %>

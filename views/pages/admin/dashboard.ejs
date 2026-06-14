@@ -1,0 +1,98 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbar') %>
+
+<div class="container">
+    <div style="margin-bottom: 2rem;">
+        <h2 style="font-size: 2.2rem; color: var(--primary-dark);">Admin Dashboard</h2>
+        <p style="color: var(--text-muted); margin-top: 0.25rem;">Overview of ACT Marketplace statistics and recent activities</p>
+    </div>
+    
+    <!-- Stats Cards -->
+    <div class="admin-stats">
+        <div class="admin-card" style="box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+            <h3>Total Users</h3>
+            <div class="number"><%= userCount %></div>
+        </div>
+        <div class="admin-card" style="box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+            <h3>Total Listings</h3>
+            <div class="number"><%= listingCount %></div>
+        </div>
+    </div>
+    
+    <!-- Tables Grid -->
+    <div class="admin-dashboard-grid">
+        <!-- Recent Users Column -->
+        <div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="font-size: 1.3rem;">Recent Users</h3>
+                <a href="/admin/users" class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">Manage All Users</a>
+            </div>
+            
+            <div class="table-container">
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% recentUsers.forEach(user => { %>
+                            <tr>
+                                <td style="font-weight: 600;"><%= user.name %></td>
+                                <td><%= user.email %></td>
+                                <td>
+                                    <span class="detail-badge" style="background: <%= user.role === 'admin' ? 'rgba(244, 162, 97, 0.15)' : 'rgba(30, 58, 95, 0.1)' %>; color: <%= user.role === 'admin' ? 'var(--secondary)' : 'var(--primary)' %>; padding: 0.2rem 0.6rem; border-radius: 50px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">
+                                        <%= user.role %>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div style="display: flex; gap: 0.5rem;">
+                                        <% if (user.role !== 'admin') { %>
+                                            <a href="/admin/make-admin/<%= user.id %>" class="btn btn-primary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;">Make Admin</a>
+                                        <% } %>
+                                        <a href="/admin/delete-user/<%= user.id %>" class="btn btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Recent Listings Column -->
+        <div>
+            <h3 style="font-size: 1.3rem;">Recent Listings</h3>
+            
+            <div class="table-container">
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Seller</th>
+                            <th>Price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% recentListings.forEach(listing => { %>
+                            <tr>
+                                <td style="font-weight: 600;"><%= listing.title %></td>
+                                <td><%= listing.seller_name %></td>
+                                <td style="font-weight: 700; color: var(--secondary);">ETB <%= parseFloat(listing.price).toFixed(2) %></td>
+                                <td>
+                                    <a href="/admin/delete-listing/<%= listing.id %>" class="btn btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="return confirm('Are you sure you want to delete this listing?')">Delete</a>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer') %>

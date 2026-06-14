@@ -1,0 +1,20 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="admin-wrapper">
+    <aside class="admin-sidebar">
+        <ul>
+            <li><a href="/admin">Dashboard</a></li>
+            <li><a href="/admin/users">Users</a></li>
+            <li><a href="/admin/all-listings">Listings</a></li>
+            <li><a href="/admin/flagged-listings">Flagged</a></li>
+            <li><a href="/admin/categories">Categories</a></li>
+        </ul>
+    </aside>
+    
+    <main class="admin-content">
+        <%- body %>
+    </main>
+</div>
+
+<%- include('../partials/footer') %>

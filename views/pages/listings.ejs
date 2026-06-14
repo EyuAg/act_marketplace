@@ -1,0 +1,29 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <div>
+            <h2 style="font-size: 2.2rem; color: var(--primary-dark);"><%= title %></h2>
+            <p style="color: var(--text-muted); margin-top: 0.25rem;">Explore items offered by other ACT students</p>
+        </div>
+        <a href="/my-listings/create" class="btn btn-secondary">+ Post a New Listing</a>
+    </div>
+
+    <% if (listings.length === 0) { %>
+        <div style="text-align: center; padding: 5rem; background: var(--bg-card); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🔍</div>
+            <h3 style="margin-bottom: 0.5rem;">No Listings Found</h3>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">We couldn't find any listings matching your search or filters.</p>
+            <a href="/listings" class="btn btn-primary">Clear Filters & View All</a>
+        </div>
+    <% } else { %>
+        <div class="listings-grid">
+            <% listings.forEach(listing => { %>
+                <%- include('../partials/listing-card', { listing: listing }) %>
+            <% }) %>
+        </div>
+    <% } %>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,38 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="container">
+    <div class="form-container">
+        <h2>Login to ACT Market</h2>
+        <p>Access your campus account to buy, sell, and message</p>
+        
+        <% if (error) { %>
+            <div class="alert alert-error">
+                <span><%= error %></span>
+            </div>
+        <% } %>
+        
+        <form method="POST">
+            <div class="form-group">
+                <label for="email">ACT Email Address</label>
+                <input type="email" name="email" id="email" placeholder="email@act.edu" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="••••••••" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-full" style="margin-top: 1rem;">Sign In</button>
+        </form>
+        
+        <p style="margin-top: 1.5rem; text-align: center; font-size: 0.9rem;">
+            New to ACT Market? <a href="/register" style="font-weight: 600; color: var(--secondary);">Create an account</a>
+        </p>
+        <p style="margin-top: 0.75rem; text-align: center; font-size: 0.9rem;">
+            <a href="/forgot-password" style="font-weight: 600; color: var(--secondary);">Forgot password?</a>
+        </p>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>
