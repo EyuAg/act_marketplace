@@ -1,0 +1,17 @@
+<% if (totalPages > 1) { %>
+    <div class="pagination">
+        <a href="?page=<%= currentPage - 1 %>" class="page-link <%= currentPage === 1 ? 'disabled' : '' %>">
+            &laquo; Previous
+        </a>
+        
+        <% for (let i = 1; i <= totalPages; i++) { %>
+            <a href="?page=<%= i %>" class="page-link <%= currentPage === i ? 'active' : '' %>">
+                <%= i %>
+            </a>
+        <% } %>
+        
+        <a href="?page=<%= currentPage + 1 %>" class="page-link <%= currentPage === totalPages ? 'disabled' : '' %>">
+            Next &raquo;
+        </a>
+    </div>
+<% } %>

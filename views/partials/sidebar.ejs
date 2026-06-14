@@ -1,0 +1,36 @@
+<aside class="filter-sidebar">
+    <h3>Filters</h3>
+    
+    <form action="/listings/search" method="GET">
+        <div class="filter-group">
+            <label>Category</label>
+            <select name="category">
+                <option value="all">All Categories</option>
+                <option value="Textbooks">Textbooks</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label>Price Range</label>
+            <input type="number" name="minPrice" placeholder="Min">
+            <input type="number" name="maxPrice" placeholder="Max">
+        </div>
+        
+        <div class="filter-group">
+            <label>Condition</label>
+            <select name="condition">
+                <option value="all">Any</option>
+                <option value="New">New</option>
+                <option value="Like New">Like New</option>
+                <option value="Good">Good</option>
+                <option value="Fair">Fair</option>
+            </select>
+        </div>
+        
+        <button type="submit" class="btn-primary">Apply Filters</button>
+    </form>
+</aside>
